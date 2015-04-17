@@ -1,0 +1,37 @@
+/**
+* Spangle Component
+*
+* Author: Marcus Heath Showalter
+* Web: heathshowalter.com
+* Email: marcus.h.showalter@gmail.com
+*/
+
+.app-<%= name %> {
+
+}
+
+
+/* X-Small Screen */
+@media (max-width: $screen-xs-max) {
+
+}
+
+/* Small Screen */
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+
+}
+
+/* Medium Screen */
+@media (min-width: $screen-md-min) {
+
+}
+
+/* Large Screen */
+@media (min-width: $screen-lg-min) {
+
+}
+
+/* X-Large Screen */
+@media (min-width: $screen-xlg-min) {
+
+}

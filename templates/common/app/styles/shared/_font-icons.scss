@@ -1,0 +1,181 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url($icon-font-path + 'icomoon.eot?-gklbxb2');
+	src:url($icon-font-path + 'icomoon.eot?#iefix-gklbxb2') format('embedded-opentype'),
+		url($icon-font-path + 'icomoon.woff?-gklbxb2') format('woff'),
+		url($icon-font-path + 'icomoon.ttf?-gklbxb2') format('truetype'),
+		url($icon-font-path + 'icomoon.svg?-gklbxb2#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="font-icon-"], [class*=" font-icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+.font-icon-phone:before {
+	content: "\e600";
+}
+
+.font-icon-mobile:before {
+	content: "\e610";
+}
+
+.font-icon-mouse:before {
+	content: "\e601";
+}
+
+.font-icon-mail:before {
+	content: "\e602";
+}
+
+.font-icon-paperclip:before {
+	content: "\e61a";
+}
+
+.font-icon-user:before {
+	content: "\e617";
+}
+
+.font-icon-users:before {
+	content: "\e611";
+}
+
+.font-icon-export:before {
+	content: "\e603";
+}
+
+.font-icon-location:before {
+	content: "\e612";
+}
+
+.font-icon-star:before {
+	content: "\e623";
+}
+
+.font-icon-star2:before {
+	content: "\e624";
+}
+
+.font-icon-chat:before {
+	content: "\e618";
+}
+
+.font-icon-comment:before {
+	content: "\e619";
+}
+
+.font-icon-quote:before {
+	content: "\e613";
+}
+
+.font-icon-house:before {
+	content: "\e614";
+}
+
+.font-icon-link:before {
+	content: "\e604";
+}
+
+.font-icon-tools:before {
+	content: "\e605";
+}
+
+.font-icon-camera:before {
+	content: "\e61b";
+}
+
+.font-icon-megaphone:before {
+	content: "\e625";
+}
+
+.font-icon-music:before {
+	content: "\e61c";
+}
+
+.font-icon-newspaper:before {
+	content: "\e61d";
+}
+
+.font-icon-lifebuoy:before {
+	content: "\e626";
+}
+
+.font-icon-calendar:before {
+	content: "\e615";
+}
+
+.font-icon-rocket:before {
+	content: "\e606";
+}
+
+.font-icon-keyboard:before {
+	content: "\e607";
+}
+
+.font-icon-screen:before {
+	content: "\e608";
+}
+
+.font-icon-pie:before {
+	content: "\e61e";
+}
+
+.font-icon-checkmark:before {
+	content: "\e609";
+}
+
+.font-icon-cross:before {
+	content: "\e60a";
+}
+
+.font-icon-info:before {
+	content: "\e60b";
+}
+
+.font-icon-help:before {
+	content: "\e60c";
+}
+
+.font-icon-layout:before {
+	content: "\e616";
+}
+
+.font-icon-list:before {
+	content: "\e60d";
+}
+
+.font-icon-text:before {
+	content: "\e61f";
+}
+
+.font-icon-video:before {
+	content: "\e620";
+}
+
+.font-icon-music2:before {
+	content: "\e621";
+}
+
+.font-icon-disk:before {
+	content: "\e622";
+}
+
+.font-icon-arrow-right:before {
+	content: "\e60e";
+}
+
+.font-icon-ellipsis:before {
+	content: "\e60f";
+}

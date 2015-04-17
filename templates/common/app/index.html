@@ -1,0 +1,63 @@
+<!doctype html>
+<html class="no-js">
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<link rel="manifest" href="manifest.json">
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+		<link rel="icon" type="image/png" href="favicon.png">
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="images/app-icons/icon-57x57.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/app-icons/icon-72x72.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/app-icons/icon-114x114.png" />
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/app-icons/icon-144x144.png" />
+
+		<!--[if lt IE 9]>
+		<script src="scripts/ie.js"></script>
+		<![endif]-->
+
+		<!-- build:css(.) styles/vendor.css -->
+		<!-- bower:css -->
+		<!-- endbower -->
+		<!-- endbuild -->
+		<!-- build:css(.tmp) styles/main.css -->
+		<link rel="stylesheet" href="styles/main.css">
+		<!-- endbuild -->
+	</head>
+
+	<body ng-app="<%= scriptAppName %>" responsive-listener ng-controller="PageCtrl">
+
+		<div class="app-container">
+			<div class="page" ng-view=""></div>
+		</div>
+
+		<!-- build:js(.) scripts/oldieshim.js -->
+		<!--[if lt IE 9]>
+			<script src="bower_components/es5-shim/es5-shim.js"></script>
+			<script src="bower_components/json3/lib/json3.js"></script>
+		<![endif]-->
+		<!-- endbuild -->
+
+		<!-- build:js(.) scripts/vendor.js -->
+		<!-- bower:js -->
+		<!-- endbower -->
+		<!-- endbuild -->
+		
+		<script>
+			grunticon([
+				"styles/sprites/images-svg.css",
+				"styles/sprites/images-png.css",
+				"styles/sprites/images-fallback.css"
+			]);
+			grunticon([
+				"styles/sprites/icons-svg.css",
+				"styles/sprites/icons-png.css",
+				"styles/sprites/icons-fallback.css"
+			]);
+		</script>
+	</body>
+
+</html>

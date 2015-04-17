@@ -1,0 +1,246 @@
+/**
+* Boilerplate
+* (c) 2014 by Marcus Heath Showalter. All rights reserved.
+*
+* Author: Marcus Heath Showalter
+* Web: heathshowalter.com
+* Email: marcus.h.showalter@gmail.com
+* Date: 2014-09-14 07:40 PM
+*/
+
+body {
+	overflow-x: hidden;											// Fixes Jumbotron image overflow issue
+	overflow-y: scroll;
+}
+
+
+.block {
+	display: block;
+
+	&-inline {
+		display: inline-block;
+	}
+
+	&-center {
+		margin: 0 auto;
+	}
+}
+
+
+// Vertical Align
+.vertical-align {
+
+	// Block Elements with unknown height
+	&.block-parent {
+		display: block;
+		position: relative;
+
+		& > .block-child {
+			display: block;
+			position: absolute;
+			top: 66%;
+			transform: translateY(-66%);
+		}
+	}
+
+
+
+	// Multiline Inline Elements
+	&.inline-parent {
+		position: relative;
+
+		& > .inline-child {
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+	&.inline-parent::before {
+		content: " ";
+		display: inline-block;
+		height: 100%;
+		width: 1%;
+		vertical-align: middle;
+	}
+
+
+}
+
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
+	font-family: Georgia,Times,"Times New Roman",serif;
+	font-weight: normal;
+}
+
+
+.color-primary {
+	color: $brand-primary;
+}
+
+.color-danger {
+	color: $brand-danger;
+}
+
+.weak {
+	font-weight: 200;
+}
+
+.modal-open {
+	transform: none !important;
+}
+
+.modal-header {
+	min-height: 60px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+
+a:hover {
+	cursor: pointer;
+}
+
+.color-white {
+	color: #fff;
+}
+
+.color-black {
+	color: #000;
+}
+
+.list-reset {
+	list-style-type: none;
+	padding: 0;
+}
+
+.col-table {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.col-no-float {
+	display: inline-block;
+	float: none;
+}
+
+.col-valign {									// Vertical Align Bootstrap columns, must remove whitespace with <!-- -->
+	display: inline-block;
+	vertical-align: middle;
+	float: none;
+}
+
+.col-cell {
+	display:table-cell;
+	height: 100%;
+}
+
+.no-padding {								// A Col that are within a Col gets extra padding, this fixes that on the inner Columns
+	padding: 0;
+}
+
+.unselectable{
+	-moz-user-select:-moz-none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
+.selectable, input, textarea{
+	-moz-user-select:text;
+	-o-user-select:text;
+	-khtml-user-select:text;
+	-webkit-user-select:text;
+	-ms-user-select:text;
+	user-select:text;
+}
+
+.anchor-highlight {
+	background-color: rgb(255,220,74);
+	background-color: rgba(255,220,74,.1);
+	border: 1px solid rgba(255,220,74,.8);
+}
+
+.anchor-hidden {
+	background-color: transparent;
+	border: none;
+}
+
+.modal-content {
+	@include box-shadow($btn-shadow-hover);
+}
+
+.modal-body {
+	padding-top:0;
+}
+
+.modal-backdrop {
+	background-color: #f6f6f6;
+
+	&.in {
+		opacity: .9;
+	}
+}
+
+
+.is-opaque {
+	opacity: 1;
+}
+
+.is-faded {
+	opacity: 0;
+}
+
+
+/*	Layout */
+
+.layout-min {
+	padding: $block-margin/2 0;
+}
+
+.layout-mid {
+	padding: $block-margin/2 15px;
+}
+
+.layout-max {
+	padding: $block-margin ($block-margin / 2);
+}
+
+
+
+/* X-Small Screen */
+@media (max-width: $screen-xs-max) {
+
+}
+
+/* Small Screen */
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+
+}
+
+/* Medium Screen */
+@media (min-width: $screen-md-min) {
+
+}
+
+/* Large Screen */
+@media (min-width: $screen-lg-min) {
+	.panel {
+		.panel-body {
+			padding: 30px;
+		}
+		.panel-heading {
+			padding: 10px 30px;
+		}
+		.panel-footer {
+			padding: 10px 30px;
+		}
+	}
+}
+
+/* X-Large Screen */
+@media (min-width: $screen-xlg-min) {
+
+}

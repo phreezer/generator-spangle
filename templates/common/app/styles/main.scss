@@ -1,0 +1,36 @@
+$icon-font-path: "../fonts/";
+
+
+@import "mixins.scss";
+@import "variables.scss";
+@import "bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "theme.scss";
+
+
+/* Sprites */
+@import "sprites/icons-fallback.scss";
+@import "sprites/icons-png.scss";
+@import "sprites/icons-svg.scss";
+@import "sprites/images-fallback.scss";
+@import "sprites/images-png.scss";
+@import "sprites/images-svg.scss";
+/* End Sprites */
+
+
+/* Shared */
+@import "shared/main.scss";
+@import "shared/font-icons.scss";
+@import "shared/icons.scss";
+@import "shared/images.scss";
+@import "shared/logo.scss";
+/* End Shared */
+
+
+/* Components */
+/* End Components */
+
+
+/* Pages */
+@import "../scripts/pages/main/main.scss";
+@import "../scripts/pages/page/page.scss";
+/* End Pages */
