@@ -661,7 +661,7 @@ module.exports = function (grunt) {
 		'json-minify',
 		'filerev',
 		'usemin',
-		'htmlmin'
+		'htmlmin',
 		'copy:sprites'
 	]);
 
