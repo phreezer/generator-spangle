@@ -51,9 +51,9 @@ module.exports = function (grunt) {
 				files: ['test/spec/{,*/}*.js'],
 				tasks: ['newer:jshint:test', 'karma']
 			},
-			compass: {
+			sass: {
 				files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}','<%%= yeoman.app %>/scripts/**/*.{scss,sass}'],
-				tasks: ['compass:server', 'autoprefixer']
+				tasks: ['sass', 'autoprefixer']
 			},
 			gruntfile: {
 				files: ['Gruntfile.js']
@@ -206,6 +206,19 @@ module.exports = function (grunt) {
 			}
 		},
 
+		
+		sass: {
+			options: {
+				sourceMap: true
+			},
+			dist: {
+				files: {
+					'.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
+				}
+			}
+		},
+		
+		
 		// Compiles Sass to CSS and generates necessary files if requested
 		compass: {
 			options: {
@@ -526,16 +539,22 @@ module.exports = function (grunt) {
 				src: [
 					'**/*.html'
 				]
+			},
+			aspx: { // create default.aspx from index.html
+				src: '<%= yeoman.dist %>/index.html',
+				dest: '<%= yeoman.dist %>/default.aspx'
 			}
 		},
 
 		// Run some tasks in parallel to speed up the build process
 		concurrent: {
 			server: [
-				'compass:server'
+				'sass'
+				//'compass:server'
 			],
 			test: [
-				'compass'
+				'sass'
+				//'compass'
 			],
 			dist: [
 				'imagemin',
@@ -648,7 +667,8 @@ module.exports = function (grunt) {
 		'concurrent:dist',
 		'grunticon:dist-icons',
 		'grunticon:dist-images',
-		'compass:dist',
+		'sass',
+		//'compass:dist',
 		'autoprefixer',
 		'concat',
 		'preprocess:js',
@@ -662,7 +682,8 @@ module.exports = function (grunt) {
 		'filerev',
 		'usemin',
 		'htmlmin',
-		'copy:sprites'
+		'copy:sprites',
+		'copy:aspx'
 	]);
 
 	grunt.registerTask('deploy', 'Upload to SharePoint', function (target) {
