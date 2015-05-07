@@ -14,9 +14,6 @@
 	angular.module('<%= scriptAppName %>')
 
 	.constant('APP_CONFIG',{
-		// @if DEBUG
-		DEPLOYMENT_TYPE: 'dev',							// dev, test, prod; currently only dev/prod are used with this app
-		// @endif
 
 		BASE_DIRECTORY: '',								// Leave blank unless there is a special case to change
 

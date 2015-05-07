@@ -67,10 +67,7 @@
 			}
 
 
-			// @if DEBUG
-			if ( APP_CONFIG.DEPLOYMENT_TYPE !== 'dev' ) {
-			// @endif
-
+			// @if PROD
 				get().then( function ( data ) {
 					var pageFound = false;
 
@@ -87,10 +84,9 @@
 						$location.path( '/' ); // Default Page
 					}
 				} );
+			// @endif
 
 			// @if DEBUG
-			} else {
-			// Dev - test code
 				if ( $routeParams.page ) {
 					$route.current.templateUrl = '/views/pages/' + $routeParams.page + '/' + $routeParams.page + '.html';
 				} else {
@@ -101,7 +97,6 @@
 					$rootScope.$broadcast( 'spa.page.load.start', $routeParams.page );
 					$( '.page-next' ).removeClass( 'page-next' );
 				} );
-			}
 			// @endif
 		}
 

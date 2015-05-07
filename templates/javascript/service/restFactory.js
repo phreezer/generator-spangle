@@ -90,10 +90,7 @@
 		// Public Method
 		function getList(options) {
 
-			// @if DEBUG
-			if(APP_CONFIG.DEPLOYMENT_TYPE !== 'dev') {
-				// @endif
-
+			// @if PROD
 				var config = getConfig(defaults, options);
 				config.url = buildUrl(config);
 
@@ -108,12 +105,10 @@
 				return $http(requestConfig)
 					.then(getListComplete)
 					.catch(getListFailed);
+			// @endif
 
-				// @if DEBUG
-			} else {
-				// Development
+			// @if DEBUG
 				return getListTest(options);
-			}
 			// @endif
 		}
 
@@ -271,7 +266,7 @@
 			deleteListItem: deleteListItem,
 			uploadFile: uploadFile
 		};
-		
+
 	});
-	
+
 })(window.angular);

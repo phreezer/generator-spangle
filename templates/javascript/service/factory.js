@@ -23,11 +23,7 @@
 		<%= cameledName %>.get = function () {
 			var deferred = $q.defer();
 
-			// @if DEBUG
-			if (APP_CONFIG.DEPLOYMENT_TYPE !== 'dev') {
-				// @endif
-
-
+			// @if PROD
 				restFactory.getList({
 					paths: {
 						list: 'LIST NAME HERE'
@@ -40,17 +36,13 @@
 				}).then(function (data) {
 					deferred.resolve(processInitialData(data.data.d.results));
 				});
+			// @endif
 
-				// @if DEBUG
-			} else {
-
-				// Local Development
+			// @if DEBUG
 				$http.get('json/<%= cameledName %>.json').then(function (data) {
 					<%= cameledName %>.initialData = data.data.d.results;
 					deferred.resolve(processInitialData(data.data.d.results));
 				});
-
-			}
 			// @endif
 
 
