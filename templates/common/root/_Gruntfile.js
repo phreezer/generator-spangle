@@ -1,4 +1,3 @@
-// Generated on 2014-09-07 using generator-angular 0.9.7
 'use strict';
 
 // # Globbing
@@ -7,63 +6,76 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
-module.exports = function (grunt) {
+module.exports = function ( grunt ) {
 
 	// Load grunt tasks automatically
-	require('load-grunt-tasks')(grunt);
+	require( 'load-grunt-tasks' )( grunt );
 
 	// Time how long tasks take. Can help when optimizing build times
-	require('time-grunt')(grunt);
+	require( 'time-grunt' )( grunt );
+
 
 	// Configurable paths for the application
 	var appConfig = {
-		server: '//isgs-spdf.external.lmco.com@SSL/DavWWWRoot/sites/YOURSITE/w',
-		app: require('./bower.json').appPath || 'app',
-		dist: 'dist'
+		siteURL: 'https://eo-sharepoint.external.lmco.com/sites/WEBSITE',
+		siteBackendURL: 'https://eo-sharepoint.external.lmco.com/sites/WEBSITE/',
+		server: '//eo-sharepoint.external.lmco.com@SSL/DavWWWRoot/sites/WEBSITE/',
+		winserver: '\\\\eo-sharepoint.external.lmco.com@SSL\\DavWWWRoot\\sites\\WEBSITE',		// no trailing backslash
+		app: require( './bower.json' ).appPath || 'app',
+		dist: 'dist',
+		timestamp: new Date().toLocaleString(),
+		gitMessage: '',
+		driveletter: 'z:'			// drive to map file share to, drive mapping is required for LM EO servers, other servers could use the file share path instead
 	};
 
-	appConfig.deploy = appConfig.server;
+
+	appConfig.siteDeploy = appConfig.server + 'prod-deploy';
+	appConfig.siteLive = appConfig.server + 'w';
+	appConfig.siteArchive = appConfig.server + 'prod-archived';
+	appConfig.siteDelete = appConfig.server + 'prod-delete';
+
 
 	// Define the configuration for all the tasks
-	grunt.initConfig({
+	grunt.initConfig( {
 
 		// Project settings
 		yeoman: appConfig,
 
+
 		// Watches files for changes and runs tasks based on the changed files
 		watch: {
 			bower: {
-				files: ['bower.json'],
-				tasks: ['wiredep']
+				files: [ 'bower.json' ],
+				tasks: [ 'wiredep' ]
 			},
 			js: {
-				files: ['<%%= yeoman.app %>/scripts/**/*.js'],
-				tasks: ['useminPrepare', 'concat', 'copy:js', 'preprocess:dev'], //'newer:jshint:all'
+				files: [ '<%%= yeoman.app %>/scripts/**/*.js' ],
+				tasks: [ 'useminPrepare', 'concat', 'copy:js', 'preprocess:dev' ], //'newer:jshint:all'
 				options: {
 					livereload: '<%%= connect.options.livereload %>',
 					event: ['all']
 				}
 			},
 			html: {
-				files: ['<%%= yeoman.app %>/scripts/**/*.html'],
-				tasks: ['copy:html', 'preprocess:dev'],
+				files: [ '<%%= yeoman.app %>/scripts/**/*.html' ],
+				tasks: [ 'copy:html', 'preprocess:dev' ],
 				options: {
 					event: ['all']
 				}
 			},
 			jsTest: {
-				files: ['test/spec/{,*/}*.js'],
-				tasks: ['newer:jshint:test', 'karma']
+				files: [ 'test/spec/{,*/}*.js' ],
+				tasks: [ 'newer:jshint:test', 'karma' ]
 			},
 			sass: {
-				files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}', '<%%= yeoman.app %>/scripts/**/*.{scss,sass}'],
-				tasks: ['sass', 'autoprefixer'],
+				files: [ '<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}', '<%%= yeoman.app %>/scripts/**/*.{scss,sass}' ],
+				tasks: [ 'sass', 'autoprefixer' ],
 				options: {
 					event: ['all']
 				}
 			},
 			gruntfile: {
-				files: ['Gruntfile.js'],
+				files: [ 'Gruntfile.js' ],
 				tasks: []
 			},
 			livereload: {
@@ -80,26 +92,27 @@ module.exports = function (grunt) {
 			}
 		},
 
+
 		// The actual grunt server settings
 		connect: {
 			options: {
 				port: 9000,
 				// Change this to '0.0.0.0' to access the server from outside.
-				hostname: '0.0.0.0',
+				hostname: 'localhost',
 				livereload: 35729
 			},
 			livereload: {
 				options: {
 					open: true,
-					middleware: function (connect) {
+					middleware: function ( connect ) {
 						return [
-							connect.static('.tmp'),
+							connect.static( '.tmp' ),
 							connect().use(
 								'/bower_components',
-								connect.static('./bower_components')
+								connect.static( './bower_components' )
 							),
-							connect.static(appConfig.app)
-							];
+							connect.static( appConfig.app )
+						];
 					}
 				}
 			},
@@ -115,7 +128,7 @@ module.exports = function (grunt) {
 								connect.static('./bower_components')
 							),
 							connect.static(appConfig.app)
-							];
+						];
 					}
 				}
 			},
@@ -127,11 +140,12 @@ module.exports = function (grunt) {
 			}
 		},
 
+
 		// Make sure code styles are up to par and there are no obvious mistakes
 		jshint: {
 			options: {
 				jshintrc: '.jshintrc',
-				reporter: require('jshint-stylish-ex')
+				reporter: require( 'jshint-stylish-ex' )
 			},
 			all: {
 				src: [
@@ -145,30 +159,32 @@ module.exports = function (grunt) {
 				options: {
 					jshintrc: 'test/.jshintrc'
 				},
-				src: ['test/spec/{,*/}*.js']
+				src: [ 'test/spec/{,*/}*.js' ]
 			}
 		},
+
 
 		// Empties folders to start fresh
 		clean: {
 			dist: {
-				files: [{
+				files: [ {
 					dot: true,
 					src: [
 						'.tmp',
 						'<%%= yeoman.dist %>/{,*/}*',
 						'!<%%= yeoman.dist %>/.git*'
 					]
-				}]
+				} ]
 			},
 			deploy: {
 				options: {
-					force: true
+					force: true,
+					'no-write': true
 				},
-				files: [{
+				files: [ {
 					dot: true,
 					expand: true,
-					cwd: '<%%= yeoman.deploy %>/',
+					cwd: '<%%= yeoman.siteDeploy %>/',
 					src: [
 						'fonts/{,*/}*',
 						'json/{,*/}*',
@@ -176,40 +192,72 @@ module.exports = function (grunt) {
 						'styles/{,*/}*',
 						'bower_components/{,*/}*',
 						'views/{,*/}*'
-						//'<%%= yeoman.deploy %>/{,*/}*',	// Delete all
-						//'!<%%= yeoman.deploy %>/.git*'		// Leave Git alone
+						//'<%%= yeoman.siteDeploy %>/{,*/}*',	// Delete all
+						//'!<%%= yeoman.siteDeploy %>/.git*'		// Leave Git alone
 					]
-				}]
+				} ]
+			},
+			'site-delete': {
+				options: {
+					force: true,
+					'no-write': true
+				},
+				files: [ {
+					dot: true,
+					expand: true,
+					cwd: '<%%= yeoman.siteDelete %>/',
+					src: [
+						'{,*/}*'	// Delete all
+					]
+				} ]
 			},
 			server: '.tmp'
 		},
 
+
 		// Add vendor prefixed styles
 		autoprefixer: {
 			options: {
-				browsers: ['last 1 version']
+				browsers: [ 'last 1 version' ]
 			},
 			dist: {
-				files: [{
+				files: [ {
 					expand: true,
 					cwd: '.tmp/styles/',
 					src: '{,*/}*.css',
 					dest: '.tmp/styles/'
-				}]
+				} ]
 			}
 		},
+
 
 		// Automatically inject Bower components into the app
 		wiredep: {
 			options: {
 				//cwd: '<%%= yeoman.app %>'
 			},
+			test: {
+				devDependencies: true,
+				src: '<%%= karma.unit.configFile %>',
+				ignorePath:  /\.\.\//,
+				fileTypes:{
+					js: {
+						block: /(([\s\t]*)\/{2}\s*?bower:\s*?(\S*))(\n|\r|.)*?(\/{2}\s*endbower)/gi,
+						detect: {
+							js: /'(.*\.js)'/gi
+						},
+						replace: {
+							js: '\'{{filePath}}\','
+						}
+					}
+				}
+			},
 			app: {
-				src: ['<%%= yeoman.app %>/index.html'],
+				src: [ '<%%= yeoman.app %>/index.html' ],
 				ignorePath: /\.\.\//
 			},
 			sass: {
-				src: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}', '<%%= yeoman.app %>/scripts/**/*.{scss,sass}'],
+				src: [ '<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}', '<%%= yeoman.app %>/scripts/**/*.{scss,sass}' ],
 				ignorePath: /(\.\.\/){1,2}bower_components\//
 			}
 		},
@@ -217,11 +265,13 @@ module.exports = function (grunt) {
 
 		sass: {
 			options: {
-				sourceMap: true
+				sourceMap: true,
+				sourceMapContents: true,
+				sourceMapEmbed: true
 			},
 			dist: {
 				files: {
-					'.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
+					'.tmp/styles/main.css': '<%%= yeoman.app %>/styles/main.scss'
 				}
 			}
 		},
@@ -256,6 +306,22 @@ module.exports = function (grunt) {
 			}
 		},
 
+
+		purifycss: {
+			options: {},
+			main: {
+				src: ['<%%= yeoman.dist %>/**/*.html', '<%%= yeoman.dist %>/scripts/*.js'],
+				css: ['<%%= yeoman.dist %>/styles/main.css'],
+				dest: '<%%= yeoman.dist %>/styles/main.css'
+			},
+			vendor: {
+				src: ['<%%= yeoman.dist %>/**/*.html', '<%%= yeoman.dist %>/scripts/*.js'],
+				css: ['<%%= yeoman.dist %>/styles/vendor.css'],
+				dest: '<%%= yeoman.dist %>/styles/vendor.css'
+			}
+		},
+
+
 		// Renames files for browser caching purposes
 		filerev: {
 			dist: {
@@ -263,10 +329,12 @@ module.exports = function (grunt) {
 					'<%%= yeoman.dist %>/scripts/{,*/}*.js',
 					'<%%= yeoman.dist %>/styles/{,*/}*.css',
 					//'<%%= yeoman.dist %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}',
-					'<%%= yeoman.dist %>/styles/fonts/*'
+					'<%%= yeoman.dist %>/styles/fonts/*',
+					'!<%%= yeoman.dist %>/styles/sprites/*.css'		// ignore Grunticon sprites
 				]
 			}
 		},
+
 
 		// Reads HTML for usemin blocks to enable smart builds that automatically
 		// concat, minify and revision files. Creates configurations in memory so
@@ -278,8 +346,8 @@ module.exports = function (grunt) {
 				flow: {
 					html: {
 						steps: {
-							js: ['concat', 'uglifyjs'],
-							css: ['cssmin']
+							js: [ 'concat', 'uglifyjs' ],
+							css: [ 'cssmin' ]
 						},
 						post: {}
 					}
@@ -287,14 +355,16 @@ module.exports = function (grunt) {
 			}
 		},
 
+
 		// Performs rewrites based on filerev and the useminPrepare configuration
 		usemin: {
-			html: ['<%%= yeoman.dist %>/{,*/}*.html'],
-			css: ['<%%= yeoman.dist %>/styles/{,*/}*.css'],
+			html: [ '<%%= yeoman.dist %>/{,*/}*.html' ],
+			css: [ '<%%= yeoman.dist %>/styles/{,*/}*.css' ],
 			options: {
-				assetsDirs: ['<%%= yeoman.dist %>', '<%%= yeoman.dist %>/images']
+				assetsDirs: [ '<%%= yeoman.dist %>', '<%%= yeoman.dist %>/images' ]
 			}
 		},
+
 
 		// The following *-min tasks will produce minified files in the dist folder
 		// By default, your `index.html`'s <!-- Usemin block --> will take care of
@@ -324,16 +394,18 @@ module.exports = function (grunt) {
 		uglify: {
 			dist: {
 				files: {
-					'<%%= yeoman.dist %>/scripts/ie.js': ['<%%= yeoman.dist %>/scripts/ie.js']
+					'<%%= yeoman.dist %>/scripts/ie.js': [ '<%%= yeoman.dist %>/scripts/ie.js' ]
 				}
 			}
 		},
 
+
 		'json-minify': {
 			build: {
-				files: '<%= yeoman.dist %>/json/*.json'
+				files: '/json/*.json'
 			}
 		},
+
 
 		concat: {
 			dist: {
@@ -342,25 +414,27 @@ module.exports = function (grunt) {
 			}
 		},
 
+
 		imagemin: {
 			dist: {
-				files: [{
+				files: [ {
 					expand: true,
 					cwd: '<%%= yeoman.app %>/images',
 					src: '{,*/}*.{png,jpg,jpeg,gif}',
 					dest: '<%%= yeoman.dist %>/images'
-				}]
+				} ]
 			}
 		},
 
+
 		grunticon: {
 			'app-icons': {
-				files: [{
+				files: [ {
 					expand: true,
-					cwd: '<%= yeoman.app %>/images/sprite-icons', // use the compressed images
-					src: ['*.{png,svg}'],
-					dest: '<%= yeoman.app %>'
-				}],
+					cwd: '<%%= yeoman.app %>/images/sprite-icons', // use the compressed images
+					src: [ '*.{png,svg}' ],
+					dest: '<%%= yeoman.app %>'
+				} ],
 				options: {
 					cssprefix: '.icon-',
 					datasvgcss: 'styles/sprites/icons-svg.css',
@@ -373,30 +447,30 @@ module.exports = function (grunt) {
 				}
 			},
 			'dist-icons': {
-				files: [{
+				files: [ {
 					expand: true,
-					cwd: '<%= yeoman.dist %>/images/sprite-icons', // use the compressed images
-					src: ['*.{png,svg}'],
-					dest: '<%= yeoman.app %>'
-				}],
+					cwd: '<%%= yeoman.dist %>/images/sprite-icons', // use the compressed images
+					src: [ '*.{png,svg}' ],
+					dest: '<%%= yeoman.dist %>'
+				} ],
 				options: {
 					cssprefix: '.icon-',
 					datasvgcss: 'styles/sprites/icons-svg.css',
 					datapngcss: 'styles/sprites/icons-png.css',
 					urlpngcss: 'styles/sprites/icons-fallback.css',
-					pngpath: '../../images/sprite-icons/png',
+					pngpath: '../images/sprite-icons/png',
 					pngfolder: '../dist/images/sprite-icons/png/',
-					loadersnippet: 'scripts/lib/grunticon.js',
+					loadersnippet: '../<%%= yeoman.app %>/scripts/lib/grunticon.js',
 					previewhtml: 'preview.html'
 				}
 			},
 			'app-images': {
-				files: [{
+				files: [ {
 					expand: true,
-					cwd: '<%= yeoman.app %>/images/sprite-images', // use the compressed images
-					src: ['*.{png,svg}'],
-					dest: '<%= yeoman.app %>'
-				}],
+					cwd: '<%%= yeoman.app %>/images/sprite-images', // use the compressed images
+					src: [ '*.{png,svg}' ],
+					dest: '<%%= yeoman.app %>'
+				} ],
 				options: {
 					cssprefix: '.image-',
 					datasvgcss: 'styles/sprites/images-svg.css',
@@ -409,35 +483,37 @@ module.exports = function (grunt) {
 				}
 			},
 			'dist-images': {
-				files: [{
+				files: [ {
 					expand: true,
-					cwd: '<%= yeoman.dist %>/images/sprite-images', // use the compressed images
-					src: ['*.{png,svg}'],
-					dest: '<%= yeoman.app %>'
-				}],
+					cwd: '<%%= yeoman.dist %>/images/sprite-images', // use the compressed images
+					src: [ '*.{png,svg}' ],
+					dest: '<%%= yeoman.dist %>'
+				} ],
 				options: {
 					cssprefix: '.image-',
 					datasvgcss: 'styles/sprites/images-svg.css',
 					datapngcss: 'styles/sprites/images-png.css',
 					urlpngcss: 'styles/sprites/images-fallback.css',
-					pngpath: '../../images/sprite-images/png',
-					pngfolder: '../dist/images/sprite-images/png/',
-					loadersnippet: 'scripts/lib/grunticon.js',
+					pngpath: '../images/sprite-images/png',
+					pngfolder: 'images/sprite-images/png/',
+					loadersnippet: '../<%%= yeoman.app %>/scripts/lib/grunticon.js',
 					previewhtml: 'preview.html'
 				}
 			}
 		},
 
+
 		svgmin: {
 			dist: {
-				files: [{
+				files: [ {
 					expand: true,
 					cwd: '<%%= yeoman.app %>/images',
 					src: '{,*/}*.svg',
 					dest: '<%%= yeoman.dist %>/images'
-				}]
+				} ]
 			}
 		},
+
 
 		htmlmin: {
 			dist: {
@@ -448,59 +524,68 @@ module.exports = function (grunt) {
 					removeCommentsFromCDATA: true,
 					removeOptionalTags: true
 				},
-				files: [{
+				files: [ {
 					expand: true,
 					cwd: '<%%= yeoman.dist %>',
-					src: ['*.html', 'views/{,*/}*.html', '!style-guide.html'],
+					src: [ '*.html', 'views/{,*/}*.html', '!style-guide.html' ],
 					dest: '<%%= yeoman.dist %>'
-				}]
+				} ]
 			}
 		},
+
 
 		// ng-annotate tries to make the code safe for minification automatically
 		// by using the Angular long form for dependency injection.
 		ngAnnotate: {
 			dist: {
-				files: [{
+				files: [ {
 					expand: true,
 					cwd: '.tmp/concat/scripts',
-					src: ['*.js', '!oldieshim.js'],
+					src: [ '*.js', '!oldieshim.js' ],
 					dest: '.tmp/concat/scripts'
-				}]
+				} ]
 			}
 		},
+
 
 		// Replace Google CDN references
 		cdnify: {
 			dist: {
-				html: ['<%%= yeoman.dist %>/*.html']
+				html: [ '<%%= yeoman.dist %>/*.html' ]
 			}
 		},
 
+
 		// Copies remaining files to places other tasks can use
 		copy: {
+			'deploytoLive': {
+				expand: true,
+				cwd: '<%%= yeoman.siteDeploy %>',
+				src: '**/*.*',
+				dest: '<%%= yeoman.siteLive %>'
+			},
 			deploy: {
 				expand: true,
 				cwd: '<%%= yeoman.dist %>',
-				src: '**/*.*',
-				dest: '<%%= yeoman.deploy %>'
+				src: ['**/*.*', '!json/*.*'],			// SharePoint on LMI blocks JSON files
+				dest: '<%%= yeoman.siteDeploy %>'
 			},
 			fastdeploy: {
-				files: [{
+				files: [ {
 					expand: true,
 					dot: true,
 					cwd: '<%%= yeoman.dist %>',
-					dest: '<%%= yeoman.deploy %>',
+					dest: '<%%= yeoman.siteDeploy %>',
 					src: [
 						'*.html',
 						'views/**/*.html',
 						'scripts/{,*/}*.js',
 						'styles/{,*/}*.css'
 					]
-				}]
+				} ]
 			},
 			dist: {
-				files: [{
+				files: [ {
 					expand: true,
 					dot: true,
 					cwd: '<%%= yeoman.app %>',
@@ -518,7 +603,7 @@ module.exports = function (grunt) {
 					expand: true,
 					cwd: '.tmp/images',
 					dest: '<%%= yeoman.dist %>/images',
-					src: ['generated/*']
+					src: [ 'generated/*' ]
 				}, {
 					expand: true,
 					cwd: '.',
@@ -532,12 +617,12 @@ module.exports = function (grunt) {
 					src: [
 						'**/*.html'
 					]
-				}]
+				} ]
 			},
 			sprites: {
 				expand: true,
-				cwd: '/styles/sprites',
-				dest: '/styles/sprites',
+				cwd: '<%%= yeoman.app %>/styles/sprites',
+				dest: '<%%= yeoman.dist %>/styles/sprites',
 				src: '{,*/}*.css'
 			},
 			html: { // Move HTML files to [app]/views folder for grunt serve
@@ -559,10 +644,11 @@ module.exports = function (grunt) {
 				]
 			},
 			aspx: { // create default.aspx from index.html
-				src: '<%= yeoman.dist %>/index.html',
-				dest: '<%= yeoman.dist %>/default.aspx'
+				src: '<%%= yeoman.dist %>/index.html',
+				dest: '<%%= yeoman.dist %>/default.aspx'
 			}
 		},
+
 
 		// Run some tasks in parallel to speed up the build process
 		concurrent: {
@@ -580,12 +666,14 @@ module.exports = function (grunt) {
 			]
 		},
 
+
 		// Remove all console.log's from app directory
 		removelogging: {
 			dist: {
-				src: ['<%%= yeoman.app %>/scripts/**/*.js', '!<%%= yeoman.app %>/scripts/**/console-log.js'] // Each file will be overwritten with the output!
+				src: [ '<%%= yeoman.app %>/scripts/**/*.js', '!<%%= yeoman.app %>/scripts/**/console-log.js' ] // Each file will be overwritten with the output!
 			}
 		},
+
 
 		preprocess: {
 			options: {
@@ -594,13 +682,12 @@ module.exports = function (grunt) {
 					DEBUG: true
 				}
 			},
-
 			'prod': {
 				options: {
 					inline: true,
 					context: {
-						DEBUG: true,
-						PROD: false
+						DEBUG: false,
+						PROD: true
 					}
 				},
 				src: [
@@ -624,21 +711,65 @@ module.exports = function (grunt) {
 			}
 		},
 
-		// Generate Documentation
-		ngdocs: {
+
+		shell: {
 			options: {
-				dest: 'docs',
-				scripts: ['<%%= yeoman.app %>/scripts/app.js'],
-				html5Mode: true,
-				startPage: '/api',
-				title: 'Docs',
-				bestMatch: true
+				stderr: false,
+				failOnError: false
 			},
-			tutorial: {
-				src: ['content/tutorial/*.ngdoc'],
-				title: 'Tutorial'
+			'archiveToDelete': {
+				command: 'rename <%%= yeoman.driveletter %>\\<%%= yeoman.folderArchive %> <%%= yeoman.folderDelete %>'
+			},
+			'liveToArchive': {
+				command: 'rename <%%= yeoman.driveletter %>\\<%%= yeoman.folderLive %> <%%= yeoman.folderArchive %>'
+			},
+			'deployToLive': {
+				command: 'rename <%%= yeoman.driveletter %>\\<%%= yeoman.folderDeploy %> <%%= yeoman.folderLive %>'
+			},
+			'liveToDelete': {
+				command: 'rename <%%= yeoman.driveletter %>\\<%%= yeoman.folderLive %> <%%= yeoman.folderDelete %>'
+			},
+			'archiveToLive': {
+				command: 'rename <%%= yeoman.driveletter %>\\<%%= yeoman.folderArchive %> <%%= yeoman.folderLive %>'
+			},
+			'site-delete': {
+				command: 'rd /S /Q <%%= yeoman.driveletter %>\\<%%= yeoman.folderDelete %>'
+			},
+			'ie-frontend' : {
+				command: '"%PROGRAMFILES%\\Internet Explorer\\IExplore" "<%%= yeoman.siteURL %>"'
+			},
+			'chrome-frontend' : {
+				command: '"%PROGRAMFILES(x86)%\\Google\\Chrome\\Application\\chrome.exe" "<%%= yeoman.siteURL %>"'
+			},
+			'firefox-frontend' : {
+				command: '"%PROGRAMFILES(x86)%\\Mozilla Firefox\\firefox.exe" "<%%= yeoman.siteURL %>"'
+			},
+			'ie-backend' : {
+				command: '"%PROGRAMFILES%\\Internet Explorer\\IExplore" "<%%= yeoman.siteBackendURL %>"'
+			},
+			'chrome-backend' : {
+				command: '"%PROGRAMFILES(x86)%\\Google\\Chrome\\Application\\chrome.exe" "<%%= yeoman.siteBackendURL %>"'
+			},
+			'firefox-backend' : {
+				command: '"%PROGRAMFILES(x86)%\\Mozilla Firefox\\firefox.exe" "<%%= yeoman.siteBackendURL %>"'
+			},
+			'server-share' : {
+				command: 'explorer "<%%= yeoman.winserver %>"'
+			},
+			'map' : {
+				command: 'net use <%%= yeoman.driveletter %> "<%%= yeoman.winserver %>"'
+			},
+			'unmap' : {
+				command: 'net use <%%= yeoman.driveletter %> /d'
 			}
 		},
+
+
+		// Generate Documentation
+		ngdocs: {
+			all: ['<%%= yeoman.app %>/scripts/**/*.js']
+		},
+
 
 		// Test settings
 		karma: {
@@ -646,24 +777,45 @@ module.exports = function (grunt) {
 				configFile: 'test/karma.conf.js',
 				singleRun: true
 			}
+		},
+
+
+		gitadd: {
+			task: {
+				options: {
+					all: true
+				}
+			}
+		},
+
+		gitcommit: {
+			local: {
+				options: {
+					message: '<%%= yeoman.gitMessage %>'
+				}
+			}
 		}
-	});
+
+	} );
 
 
-	grunt.loadNpmTasks('grunt-ngdocs');
-	grunt.loadNpmTasks('grunt-remove-logging');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-preprocess');
-	grunt.loadNpmTasks('grunt-json-minify');
-	grunt.loadNpmTasks('grunt-grunticon');
+	grunt.loadNpmTasks( 'grunt-ngdocs' );
+	grunt.loadNpmTasks( 'grunt-remove-logging' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+	grunt.loadNpmTasks( 'grunt-preprocess' );
+	grunt.loadNpmTasks( 'grunt-json-minify' );
+	grunt.loadNpmTasks( 'grunt-grunticon' );
+	grunt.loadNpmTasks( 'grunt-purifycss' );
+	grunt.loadNpmTasks( 'grunt-git' );
+	grunt.loadNpmTasks( 'grunt-karma' );
 
 
-	grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
-		if (target === 'dist') {
-			return grunt.task.run(['build', 'connect:dist:keepalive']);
+	grunt.registerTask( 'serve', 'Compile then start a connect web server', function ( target ) {
+		if ( target === 'dist' ) {
+			return grunt.task.run( [ 'build', 'connect:dist:keepalive' ] );
 		}
 
-		grunt.task.run([
+		grunt.task.run( [
 			'clean:server',
 			'grunticon:app-icons',
 			'grunticon:app-images',
@@ -675,31 +827,46 @@ module.exports = function (grunt) {
 			'preprocess:dev',
 			'connect:livereload',
 			'watch'
-		]);
-	});
+		] );
+	} );
 
-	grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
-		grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-		grunt.task.run(['serve:' + target]);
-	});
 
-	grunt.registerTask('test', [
+	grunt.registerTask( 'server', 'DEPRECATED TASK. Use the "serve" task instead', function ( target ) {
+		grunt.log.warn( 'The `server` task has been deprecated. Use `grunt serve` to start a server.' );
+		grunt.task.run( [ 'serve:' + target ] );
+	} );
+
+
+	grunt.registerTask( 'test', [
 		'clean:server',
+		'wiredep',
 		'concurrent:test',
 		'autoprefixer',
 		'connect:test',
 		'karma'
-	]);
+	] );
 
-	grunt.registerTask('docs', [
+
+	grunt.registerTask( 'docs', [
 		'ngdocs'
-	]);
+	] );
 
-	grunt.registerTask('logs', [
+
+	grunt.registerTask( 'logs', [
 		'removelogging'
-	]);
+	] );
 
-	grunt.registerTask('build', [
+
+	grunt.registerTask( 'map', 'Map Z: drive to SharePoint', function ( target ) {
+
+		grunt.task.run( [
+			'shell:unmap',
+			'shell:map'
+		] );
+	} );
+
+
+	grunt.registerTask( 'build', [
 		'clean:dist',
 		'wiredep',
 		'useminPrepare',
@@ -717,59 +884,159 @@ module.exports = function (grunt) {
 		'cssmin',
 		'uglify',
 		'json-minify',
+		//'purifycss:main',
+		//'purifycss:vendor',
 		'filerev',
 		'usemin',
 		'htmlmin',
 		'copy:sprites',
 		'copy:aspx'
-	]);
+	] );
 
-	grunt.registerTask('deploy', 'Upload to SharePoint', function (target) {
-		appConfig.deploy = appConfig.server;
 
-		grunt.task.run([
+	grunt.registerTask( 'rollback', 'Upload to SharePoint', function ( target ) {
+		appConfig.siteDeploy = appConfig.driveletter + '\\prod-deploy';
+		appConfig.siteLive = appConfig.driveletter + '\\w';
+		appConfig.siteArchive = appConfig.driveletter + '\\prod-archived';
+		appConfig.siteDelete = appConfig.driveletter + '\\prod-delete';
+
+		grunt.task.run( [
+			'shell:unmap',
+			'shell:map',
+			'clean:site-delete',
+			'shell:site-delete',
+			'shell:liveToDelete',
+			'shell:archiveToLive',
+			'clean:site-delete',
+			'shell:site-delete'
+		] );
+	} );
+
+
+	grunt.registerTask( 'deploy', 'Upload to SharePoint', function ( target ) {
+		appConfig.folderDeploy = 'prod-deploy';
+		appConfig.folderLive = 'w';
+		appConfig.folderArchive = 'prod-archived';
+		appConfig.folderDelete = 'prod-delete';
+
+		appConfig.siteDeploy = appConfig.driveletter + '\\prod-deploy';
+		appConfig.siteLive = appConfig.driveletter + '\\w';
+		appConfig.siteArchive = appConfig.driveletter + '\\prod-archived';
+		appConfig.siteDelete = appConfig.driveletter + '\\prod-delete';
+		appConfig.gitMessage = 'Deployed Prod ' + appConfig.timestamp;
+
+		grunt.task.run( [
+			'shell:unmap',
+			'shell:map',
+			//'removelogging',
+			'gitadd:task',
+			'gitcommit:local',
+			'clean:site-delete',
+			'shell:site-delete',
 			'clean:deploy',
-			'copy:deploy'
-		]);
-	});
+			'copy:deploy',
+			'shell:archiveToDelete',
+			'shell:liveToArchive',
+			'shell:deployToLive',
+			'clean:site-delete',
+			'shell:site-delete'
+		] );
+	} );
 
-	grunt.registerTask('deploy-prod', 'Upload to SharePoint', function (target) {
-		appConfig.deploy = appConfig.server;
 
-		grunt.task.run([
+	grunt.registerTask( 'deploy-prod', 'Upload to SharePoint', function ( target ) {
+		appConfig.folderDeploy = 'prod-deploy';
+		appConfig.folderLive = 'w';
+		appConfig.folderArchive = 'prod-archived';
+		appConfig.folderDelete = 'prod-delete';
+
+		appConfig.siteDeploy = appConfig.driveletter + '\\prod-deploy';
+		appConfig.siteLive = appConfig.driveletter + '\\w';
+		appConfig.siteArchive = appConfig.driveletter + '\\prod-archived';
+		appConfig.siteDelete = appConfig.driveletter + '\\prod-delete';
+		appConfig.gitMessage = 'Deployed Prod ' + appConfig.timestamp;
+
+		grunt.task.run( [
+			'shell:unmap',
+			'shell:map',
+			//'removelogging',				// This needs work, removing logs here only affects the next build not this one
+			'gitadd:task',
+			'gitcommit:local',
+			'clean:site-delete',
+			'shell:site-delete',
 			'clean:deploy',
-			'copy:deploy'
-		]);
-	});
+			'copy:deploy',
+			'shell:archiveToDelete',
+			'shell:liveToArchive',
+			'shell:deployToLive',
+			'clean:site-delete',
+			'shell:site-delete'
+		] );
+	} );
 
-	grunt.registerTask('deploy-dev', 'Upload to SharePoint', function (target) {
-		appConfig.deploy = appConfig.server + '/dev';
 
-		grunt.task.run([
+	grunt.registerTask( 'deploy-dev', 'Upload to SharePoint', function ( target ) {
+		appConfig.folderDeploy = 'dev-deploy';
+		appConfig.folderLive = 'dev';
+		appConfig.folderArchive = 'dev-archived';
+		appConfig.folderDelete = 'dev-delete';
+
+		appConfig.siteDeploy = appConfig.driveletter + '\\dev-deploy/';
+		appConfig.siteLive = appConfig.driveletter + '\\dev/';
+		appConfig.siteArchive = appConfig.driveletter + '\\dev-archived/';
+		appConfig.siteDelete = appConfig.driveletter + '\\dev-delete/';
+		appConfig.gitMessage = 'Deployed Dev ' + appConfig.timestamp;
+
+		grunt.task.run( [
+			'shell:unmap',
+			'shell:map',
+			'gitadd:task',
+			'gitcommit:local',
+			'clean:site-delete',
+			'shell:site-delete',
 			'clean:deploy',
-			'copy:deploy'
+			'copy:deploy',
+			'shell:archiveToDelete',
+			'shell:liveToArchive',
+			'shell:deployToLive',
+			'clean:site-delete',
+			'shell:site-delete'
+		] );
+	} );
+
+
+	grunt.registerTask( 'frontend', [
+		'shell:ie-frontend',
+		'shell:firefox-frontend',
+		'shell:chrome-frontend'
+	] );
+
+
+	grunt.registerTask( 'backend', [
+		'shell:ie-backend',
+		'shell:firefox-backend',
+		'shell:chrome-backend'
+	] );
+
+
+	grunt.registerTask( 'share', [
+		'shell:server-share'
+	] );
+
+
+	grunt.registerTask( 'git', 'Git Commit', function ( target ) {
+		appConfig.gitMessage = 'Updated ' + appConfig.timestamp;
+
+		grunt.task.run( [
+			'gitadd:task',
+			'gitcommit:local'
 		]);
 	});
 
-	grunt.registerTask('deploy-prod-fast', 'Upload to SharePoint', function (target) {
-		appConfig.deploy = appConfig.server;
 
-		grunt.task.run([
-			'copy:fastdeploy'
-		]);
-	});
-
-	grunt.registerTask('deploy-dev-fast', 'Upload to SharePoint', function (target) {
-		appConfig.deploy = appConfig.server + '/dev';
-
-		grunt.task.run([
-			'copy:fastdeploy'
-		]);
-	});
-
-	grunt.registerTask('default', [
+	grunt.registerTask( 'default', [
 		'newer:jshint',
 		'test',
 		'build'
-	]);
+	] );
 };
